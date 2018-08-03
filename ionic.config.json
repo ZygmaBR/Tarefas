@@ -1,0 +1,7 @@
+{
+  "name": "tarefas",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}

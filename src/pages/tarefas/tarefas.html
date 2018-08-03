@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Tarefas
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button menuToggle icon-start>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons start>
+      <button ion-button (click)="adicionaTarefa()" icon-end>
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-list [reorder]="reOrderTarefa" (ionItemReorder)="reordenaTarefa($event)">
+    <ion-item-sliding *ngFor="let tarefa of tarefas, let indice = index">
+      <ion-item ion-long-press (onPressing)="alertaEditarTarefa(i)">
+        <ion-icon name="alert" icon-start item-left color={{tarefa.tipo}}></ion-icon>
+        <p>{{tarefa.titulo}}</p>
+        <p>{{tarefa.descricao}}</p>
+      </ion-item>
+      <ion-item-options side="right">
+        <button  color="primary" ion-button (click)="alertaArquivaTarefa(tarefa, indice)">
+          <ion-icon name="archive"></ion-icon>
+        </button>
+      </ion-item-options>
+      <ion-item-options side="left">
+        <button  color="danger" ion-button (click)="alertaApagatarefa(indice)">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>
+<ion-tabs>
+  <ion-tab></ion-tab>
+</ion-tabs>
+
+<ion-footer >
+  <ion-toolbar>
+    <ion-item>
+      <ion-label>Organizar?</ion-label>
+      <ion-toggle [(ngModel)]="reOrderTarefa"></ion-toggle>
+    </ion-item>
+  </ion-toolbar>
+</ion-footer>

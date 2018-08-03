@@ -1,0 +1,22 @@
+<ion-menu [content]="menuPrincipal">
+  <ion-content>
+    <ion-list>
+        <button ion-item>
+          <ion-icon name="cog" item-start></ion-icon>
+          Configurações
+        </button>
+      <button ion-item>
+        <ion-icon name="pie" item-start></ion-icon>
+        Estatística
+      </button>
+      <button ion-item>
+        <ion-icon name="information-circle" item-start></ion-icon>
+        Sobre
+      </button>
+      <ion-item>
+        <p>Tarefas V1.0 - Todos os direitos reservados.</p>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+<ion-nav #menuPrincipal [root]="rootPage"></ion-nav>
