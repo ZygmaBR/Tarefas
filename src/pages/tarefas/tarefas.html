@@ -8,7 +8,7 @@
         <ion-icon name="menu"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-buttons start>
+    <ion-buttons >
       <button ion-button (click)="adicionaTarefa()" icon-end>
         <ion-icon name="add"></ion-icon>
       </button>
@@ -18,7 +18,7 @@
 <ion-content padding>
   <ion-list [reorder]="reOrderTarefa" (ionItemReorder)="reordenaTarefa($event)">
     <ion-item-sliding *ngFor="let tarefa of tarefas, let indice = index">
-      <ion-item ion-long-press (onPressing)="alertaEditarTarefa(i)">
+      <ion-item ion-long-press (onPressing)="alertaEditarTarefa(indice)">
         <ion-icon name="alert" icon-start item-left color={{tarefa.tipo}}></ion-icon>
         <p>{{tarefa.titulo}}</p>
         <p>{{tarefa.descricao}}</p>

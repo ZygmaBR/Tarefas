@@ -23,6 +23,7 @@ export class TarefasService {
         this.closeLoader();
       });
     });
+    console.log('TarefasService finished.');
   }
 
   initLoader(msg){
@@ -45,24 +46,6 @@ export class TarefasService {
     toast.present();
   }
 
-  getData() {
-    return {
-      tarefas : this.storage.get('tarefas'),
-      tarefasArquivadas: this.storage.get('tarefasArquivadas')};
-  }
-
-  saveTarefas(tarefa) {
-    this.storage.set('tarefas', tarefa).then(()=>{
-      this.doToast('Tarefa salva.', 3000)
-    });
-  }
-
-  saveTarefasArquivadas(tarefa) {
-    this.storage.set('tarefasArquivadas', tarefa).then(()=>{
-      this.doToast('Tarefa arquivada.', 3000)
-    });
-  }
-
   getTarefasArquivadas(){
     return this.tarefasArquivadas;
   }
@@ -71,8 +54,32 @@ export class TarefasService {
     return this.tarefas;
   }
 
-  addTarefa(tarefa){
-    this.tarefas.push(tarefa);
-    this.saveTarefas(this.tarefas);
+  getData() {
+    return {
+      tarefas : this.storage.get('tarefas'),
+      tarefasArquivadas: this.storage.get('tarefasArquivadas')};
   }
+
+  addTarefa(tarefa,msg){
+    this.tarefas.push(tarefa);
+    this.saveTarefas(this.tarefas,msg);
+  }
+  saveTarefas(tarefa, msg) {
+    this.storage.set('tarefas', tarefa).then(()=>{
+      if (msg) this.doToast(msg, 3000)
+    });
+  }
+
+  addTarefaArquivada(tarefa,msg){
+    this.tarefasArquivadas.push(tarefa);
+    this.saveTarefasArquivadas(this.tarefasArquivadas,msg);
+  }
+
+
+  saveTarefasArquivadas(tarefa, msg) {
+    this.storage.set('tarefasArquivadas', tarefa).then(()=>{
+      if (msg) this.doToast(msg, 3000)
+    });
+  }
+
 }

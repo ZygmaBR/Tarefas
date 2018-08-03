@@ -20,18 +20,34 @@ export class NovaTarefaPage {
     descricao:null,
     tipo:null
   };
+  public tarefas;
+  public edit = false;
+  public indice;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public tarefasService: TarefasService) {
+    this.tarefas = this.tarefasService.getTarefas();
+    if (this.navParams.get('tarefa')) {
+      this.tarefa = this.navParams.get('tarefa');
+      this.indice = this.navParams.get('indice');
+      this.edit = true;
+    }
   }
 
   voltar(){
     this.navCtrl.pop();
   }
-
+  editarTarefas(index, tarefa){
+    this.tarefas[index]=tarefa;
+    this.tarefasService.saveTarefas(this.tarefas,'Tarefa atualizada.')
+  }
   salvarTarefa(){
-    this.tarefasService.addTarefa(this.tarefa);
+    if (this.edit){
+      this.editarTarefas(this.indice, this.tarefa);
+    }else{
+      this.tarefasService.addTarefa(this.tarefa,null);
+    }
     this.navCtrl.pop();
   }
 

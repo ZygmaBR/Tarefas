@@ -3,13 +3,6 @@ import { IonicPage, NavParams, AlertController } from 'ionic-angular';
 
 import {TarefasService} from '../../providers/tarefas/tarefas'
 
-/**
- * Generated class for the ArquivadasPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
-
 @IonicPage()
 @Component({
   selector: 'page-arquivadas',
@@ -37,7 +30,24 @@ export class ArquivadasPage {
           text:"Remover",
           handler: ()=>{
             this.delTarefa(index);
-            this.tarefasService.doToast("A tarefa foi removida.",3000);
+          }
+        }]
+    });
+    removeTarefa.present();
+  }
+
+  limpaTarefasArquivadas(){
+    let removeTarefa = this.alertController.create({
+      title: "Remover tarefa",
+      message: "Gostaria de limpar todas as tarefas arquivadas? Isso não poderá ser desfeito.",
+      buttons:[
+        {
+          text: "Cancelar"
+        },
+        {
+          text:"Limpar",
+          handler: ()=>{
+            this.delAllTarefas();
           }
         }]
     });
@@ -46,6 +56,10 @@ export class ArquivadasPage {
 
   delTarefa(index){
     this.tarefasArquivadas.splice(index, 1);
-    this.tarefasService.saveTarefasArquivadas(this.tarefasArquivadas);
+    this.tarefasService.saveTarefasArquivadas(this.tarefasArquivadas,'Tarefa arquivada removida.');
+  }
+  delAllTarefas(){
+    this.tarefasArquivadas.splice(0, this.tarefasArquivadas.length);
+    this.tarefasService.saveTarefasArquivadas(this.tarefasArquivadas,'Tudo limpo.');
   }
 }
