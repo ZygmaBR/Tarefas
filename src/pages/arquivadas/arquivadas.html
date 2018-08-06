@@ -8,7 +8,7 @@
         <ion-icon name="menu"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-buttons >
+    <ion-buttons start>
       <button ion-button [disabled]="tarefasArquivadas.length < 1"  (click)="limpaTarefasArquivadas()" icon-end>
         <ion-icon name="trash"></ion-icon>
       </button>
@@ -16,11 +16,12 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content >
+  <img src="../../assets/imgs/paisagem3.jpg">
   <ion-list>
     <ion-item-sliding *ngFor="let tarefa of tarefasArquivadas, let indice = index">
       <ion-item>
-        <ion-icon name="alert" icon-start item-left color={{tarefa.tipo}}></ion-icon>
+        <ion-icon name="radio-button-off" icon-start item-left color={{tarefa.tipo}}></ion-icon>
         <p>{{tarefa.titulo}}</p>
         <p>{{tarefa.descricao}}</p>
       </ion-item>

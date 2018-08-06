@@ -8,28 +8,46 @@
         <ion-icon name="menu"></ion-icon>
       </button>
     </ion-buttons>
-    <ion-buttons >
+    <ion-buttons start>
       <button ion-button (click)="adicionaTarefa()" icon-end>
         <ion-icon name="add"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>
 </ion-header>
-<ion-content padding>
+<ion-content>
+  <img src="../../assets/imgs/paisagem2.jpg">
   <ion-list [reorder]="reOrderTarefa" (ionItemReorder)="reordenaTarefa($event)">
     <ion-item-sliding *ngFor="let tarefa of tarefas, let indice = index">
-      <ion-item ion-long-press (onPressing)="alertaEditarTarefa(indice)">
-        <ion-icon name="alert" icon-start item-left color={{tarefa.tipo}}></ion-icon>
-        <p>{{tarefa.titulo}}</p>
-        <p>{{tarefa.descricao}}</p>
+      <ion-item ion-long-press (onPressing)="alertaEditarTarefa(indice)" (dblclick)="setTarefaConcluida(indice)"
+                *ngIf="tarefa.status !== 'Feito'; else doNe">
+        <ion-icon name="radio-button-off" icon-start item-left color={{tarefa.tipo}}></ion-icon>
+        <h1>{{tarefa.titulo}}</h1>
+        <h2>{{tarefa.descricao}}</h2>
+        <h3>{{tarefa.lista}} - {{getDataView(tarefa.dataPrevisao)}}</h3>
       </ion-item>
+
+      <ng-template #doNe>
+        <ion-item ion-long-press (onPressing)="alertaEditarTarefa(indice)" (dblclick)="setTarefaConcluida(indice)">
+          <ion-icon name="checkmark-circle" icon-start item-left color={{tarefa.tipo}}></ion-icon>
+          <h1>
+            <del>{{tarefa.titulo}}</del>
+          </h1>
+          <h2>
+            <del>{{tarefa.descricao}}</del>
+          </h2>
+          <h3>{{tarefa.lista}} - {{getDataView(tarefa.dataPrevisao)}}</h3>
+        </ion-item>
+      </ng-template>
+
+
       <ion-item-options side="right">
-        <button  color="primary" ion-button (click)="alertaArquivaTarefa(tarefa, indice)">
+        <button color="primary" ion-button (click)="alertaArquivaTarefa(tarefa, indice)">
           <ion-icon name="archive"></ion-icon>
         </button>
       </ion-item-options>
       <ion-item-options side="left">
-        <button  color="danger" ion-button (click)="alertaApagatarefa(indice)">
+        <button color="danger" ion-button (click)="alertaApagatarefa(indice)">
           <ion-icon name="trash"></ion-icon>
         </button>
       </ion-item-options>
@@ -40,7 +58,7 @@
   <ion-tab></ion-tab>
 </ion-tabs>
 
-<ion-footer >
+<ion-footer>
   <ion-toolbar>
     <ion-item>
       <ion-label>Organizar?</ion-label>

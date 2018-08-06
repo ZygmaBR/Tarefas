@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {NavController, AlertController, reorderArray} from 'ionic-angular';
 import {TarefasService} from '../../providers/tarefas/tarefas'
 
@@ -9,26 +9,27 @@ import {TarefasService} from '../../providers/tarefas/tarefas'
 
 export class TarefasPage {
   public tarefas;
-  public reOrderTarefa=false;
+  public reOrderTarefa = false;
+  public dataPrevisaoExtenso;
 
-  constructor(private tarefasService:TarefasService,
+  constructor(private tarefasService: TarefasService,
               public navCtrl: NavController,
               private alertController: AlertController) {
     this.tarefas = this.tarefasService.getTarefas();
-   }
+  }
 
-  alertaApagatarefa(indice){
+  alertaApagatarefa(indice) {
     let novaTarefa = this.alertController.create({
       title: "Apagar Tarefa",
       message: "A tarefa será apagada. Tem certeza?",
-      buttons:[
+      buttons: [
         {
           text: "Cancelar"
         },
         {
           text: "Apagar",
-          handler: ()=>{
-            this.tarefas.splice(indice,1);
+          handler: () => {
+            this.tarefas.splice(indice, 1);
             this.tarefasService.saveTarefas(this.tarefas, 'Tarefa removida.');
           }
         }
@@ -37,38 +38,38 @@ export class TarefasPage {
     novaTarefa.present();
   }
 
-  alertaEditarTarefa(indice){
+  alertaEditarTarefa(indice) {
     this.adicionaTarefa(this.tarefas[indice], indice);
   }
 
-  reordenaTarefa($event){
+  reordenaTarefa($event) {
     reorderArray(this.tarefas, $event);
-    this.tarefasService.saveTarefas(this.tarefas,null);
+    this.tarefasService.saveTarefas(this.tarefas, null);
   }
 
-  alertaArquivaTarefa(tarefa,index){
+  alertaArquivaTarefa(tarefa, index) {
     let removeTarefa = this.alertController.create({
       title: "Arquivamento",
       message: "Gostaria de arquivar a tarefa?",
-      buttons:[
+      buttons: [
         {
           text: "Cancelar"
         },
         {
-          text:"Arquivar",
-          handler: ()=>{
-            this.arquivaTarefa(tarefa,index);
+          text: "Arquivar",
+          handler: () => {
+            this.arquivaTarefa(tarefa, index);
           }
         }]
     });
     removeTarefa.present();
   }
-  arquivaTarefa(tarefa,index){
-    this.tarefas.splice(index, 1);
-    this.tarefasService.saveTarefas(this.tarefas,null);
-    this.tarefasService.addTarefaArquivada(tarefa,'Tarefa arquivada.');
-  }
 
+  arquivaTarefa(tarefa, index) {
+    this.tarefas.splice(index, 1);
+    this.tarefasService.saveTarefas(this.tarefas, null);
+    this.tarefasService.addTarefaArquivada(tarefa, 'Tarefa arquivada.');
+  }
 
 
   adicionaTarefa(params, index) {
@@ -77,5 +78,20 @@ export class TarefasPage {
         tarefa: params,
         indice: index
       });
+  }
+
+  setTarefaConcluida(indice) {
+
+    if (this.tarefas[indice].status == 'Feito'){
+      this.tarefas[indice].status = 'Em Andamento';
+    }else{
+      this.tarefas[indice].status = 'Feito';
+    }
+    console.log('Double tap!' + indice);
+    this.tarefasService.saveTarefas(this.tarefas, 'Tarefa atualizada.');
+  }
+
+  getDataView = (data) => {
+    return this.dataPrevisaoExtenso = this.tarefasService.getDataporExtenso(data);
   }
 }
