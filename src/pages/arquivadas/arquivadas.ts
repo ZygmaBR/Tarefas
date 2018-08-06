@@ -10,6 +10,7 @@ import {TarefasService} from '../../providers/tarefas/tarefas'
 })
 export class ArquivadasPage {
   public tarefasArquivadas;
+  public dataPrevisaoExtenso;
 
   constructor(private tarefasService: TarefasService,
               private alertController:AlertController,
@@ -58,8 +59,13 @@ export class ArquivadasPage {
     this.tarefasArquivadas.splice(index, 1);
     this.tarefasService.saveTarefasArquivadas(this.tarefasArquivadas,'Tarefa arquivada removida.');
   }
+
   delAllTarefas(){
     this.tarefasArquivadas.splice(0, this.tarefasArquivadas.length);
     this.tarefasService.saveTarefasArquivadas(this.tarefasArquivadas,'Tudo limpo.');
+  }
+
+  getDataView = (data) => {
+    return this.dataPrevisaoExtenso = this.tarefasService.getDataporExtenso(data);
   }
 }
